@@ -30,7 +30,6 @@ class ReactMapGL extends PureComponent {
   // }
 	render() {
     // const lineLayer = new LineLayer({id: 'line-layer', data});
-    console.log('WCData', WCData, data);
     const arcLayer = new ArcLayer({
       id: 'arc-layer',
       data,
@@ -38,10 +37,28 @@ class ReactMapGL extends PureComponent {
       getStrokeWidth: 12,
       getSourcePosition: d => d.fromCoords,
       getTargetPosition: d => d.toCoords,
-      // getSourceColor: d => [Math.sqrt(d.inbound), 140, 0],
-      // getTargetColor: d => [Math.sqrt(d.outbound), 140, 0],
+      highlightColor: [0, 0, 140, 200],
+      autoHighlight: true,
+      getSourceColor: d => {
+        if(d.playingTeam === "France") {
+          return [140, 140, 0, 255]
+        }
+        else {
+          return [220, 220, 220, 255]
+        }
+      },
+      getTargetColor: d => {
+        if(d.playingTeam === "France") {
+          return [140, 140, 0, 255]
+        }
+        else {
+          return [220, 220, 220, 255]
+        }
+      },
       // onHover: ({object}) => setTooltip(`${object.from.name} to ${object.to.name}`)
     });
+    
+    console.log('WCData', data, arcLayer);
     return (
 
       <MapGL

@@ -12,10 +12,10 @@ function hydrate(usePrevious = null) {
       viewport: {
         width: 500,
         height: 500,
-        longitude: 30.220533,
-        latitude: 59.972953,
-        zoom: 6,
-        pitch: 5,
+        longitude: 39.75333084153488,
+        latitude: 54.596073529047466,
+        zoom: 3,
+        pitch: 40,
         bearing: 3,
       }
     };
