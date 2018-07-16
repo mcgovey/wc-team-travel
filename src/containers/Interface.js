@@ -3,18 +3,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Immutable from 'immutable';
 
+
+import Teams from '../data/teams';
+
 import { changeViz } from '../actions/index';
 
 class Interface extends Component {
   constructor(props) {
     super(props);
 
-    this.buttons = [
-      { value: 'age', contents: 'Building Age' },
-      { value: 'sqft', contents: 'Building Sqft' },
-      { value: 'units', contents: 'Housing Units' },
-      { value: 'use', contents: 'Primary Use' }
-    ];
+    this.buttons = Teams;
   }
 
   // Makes a button that triggers the CHANGE_VIZ action
@@ -37,6 +35,8 @@ class Interface extends Component {
 
   render() {
     const { activeButton } = this.props;
+
+    // console.log('print teams', Teams);
     // make all the buttons:
     const buttons = this.buttons.map(btn => this._makeButton(activeButton, btn));
 

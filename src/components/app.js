@@ -1,16 +1,7 @@
 // import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
-// import ReactMap from '../containers/ReactMap';
 import Interface from '../containers/Interface';
 import ReactMapGL from '../containers/ReactMapGL';
-
-
-
-
-// const LONG = -122.66661759147235;
-// const LAT = 45.51886025215052;
-// const ZOOM = 14.26;
-// const STYLE_ID = 'ryantm/cj8m5f0136ll12sk7nm8dj00k';
 
 
 export default class App extends Component {
@@ -19,7 +10,7 @@ export default class App extends Component {
     console.log('process')
     return (
       <div>
-        {/* <Interface /> */}
+        <Interface />
         {/* <ReactMap
           token= { TOKEN }
           longitude= { LONG }

@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 
-export default function UserIntReducer(viewportState = null, action) {
+export default function viewportReducer(viewportState = null, action) {
   switch(action.type){
     case 'PAN_MAP': {
       console.log('viewportState', viewportState);

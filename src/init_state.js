@@ -1,14 +1,22 @@
 import Immutable from 'immutable';
+import WCData from './data/wctravel';
+import createArcs from './utilities/arcs';
 
 function hydrate(usePrevious = null) {
   if(!usePrevious){
+    let wcData = createArcs(WCData, 'France');
+    console.log('all layers', wcData);
     return {
       mapStyle: null,
       userInterface: Immutable.fromJS({
-        activeButton: 'age',
+        activeButton: 'France',
+        // layerData: createArcs(WCData, 'ALL'),
         activeLayer: 'buildings',
-        popup: null
+        popup: null,
       }),
+      arcState: {
+        layerData: wcData
+      },
       viewport: {
         width: 500,
         height: 500,
