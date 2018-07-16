@@ -8,7 +8,16 @@ function hydrate(usePrevious = null) {
         activeButton: 'age',
         activeLayer: 'buildings',
         popup: null
-      })
+      }),
+      viewport: {
+        width: 500,
+        height: 500,
+        longitude: 30.220533,
+        latitude: 59.972953,
+        zoom: 6,
+        pitch: 5,
+        bearing: 3,
+      }
     };
   }
 }

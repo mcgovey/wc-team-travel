@@ -11,6 +11,7 @@ export default function UserIntReducer(userIntState = null, action) {
       const html = popupCreator(action.payload);
       return userIntState.set('popup', html);
     }
+    
     default: return userIntState;
   }
 

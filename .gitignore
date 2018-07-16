@@ -56,3 +56,8 @@ typings/
 
 # dotenv environment variables file
 .env
+
+# all token files
+tokens/
+
+py/data/

@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import Immutable from 'immutable';
 
 import { clickMap, setStyle } from '../actions/index';
-import diffStyles from '../utilities/diff.js';
+import diffStyles from '../utilities/diff';
 
 class ReactMap extends Component {
   componentDidMount(){

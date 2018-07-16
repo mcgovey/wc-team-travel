@@ -18,3 +18,10 @@ export function changeViz(event) {
     payload: event.target.value
   }
 }
+
+export function panMap(viewport) {
+  return {
+    type: 'PAN_MAP',
+    payload: viewport
+  }
+}
