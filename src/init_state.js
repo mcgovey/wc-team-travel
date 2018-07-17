@@ -18,13 +18,14 @@ function hydrate(usePrevious = null) {
         layerData: wcData
       },
       viewport: {
-        width: 500,
-        height: 500,
+        width: Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
+        height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
         longitude: 39.75333084153488,
         latitude: 54.596073529047466,
         zoom: 3,
         pitch: 40,
         bearing: 3,
+        mapStyle: 'mapbox://styles/mcgovey/cjit8fr292wii2ro7si58jldi'
       }
     };
   }

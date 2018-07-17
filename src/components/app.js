@@ -19,7 +19,10 @@ export default class App extends Component {
           showPopUp= { true }
           styleID = { STYLE_ID }
         /> */}
-        <ReactMapGL />
+        <div className='col12 pad4 contain fill-navy dark clip'>
+  <div className='center quiet'><ReactMapGL /></div>
+</div>
+        
       </div>
     );
   }

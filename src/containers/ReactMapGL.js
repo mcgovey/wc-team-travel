@@ -1,45 +1,27 @@
 import React, { PureComponent } from 'react';
-import DeckGL, {LineLayer, ArcLayer} from 'deck.gl';
+import DeckGL, { ArcLayer } from 'deck.gl';
 import MapGL from 'react-map-gl';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { interpolateRgb } from 'd3-interpolate';
 
 import {MapboxAccessToken} from '../tokens/mapbox';
 
 import { panMap } from '../actions/index';
 
-import WCData from '../data/wctravel';
-
-// Viewport settings that is shared between mapbox and deck.gl
-// const 
-
-// // let data = WCData.filter((d) => d.fromLat);
-// let data = WCData.map(d => {
-//   let rD = d;
-//   rD.fromCoords = JSON.parse(d.fromCoords);
-//   rD.toCoords = JSON.parse(d.toCoords);
-//   return rD;
-// });
+// import WCData from '../data/wctravel';
   
 const TOKEN = MapboxAccessToken;
 // Data to be used by the LineLayer
-// const data = [{sourcePosition: [-122.41669, 37.7853], targetPosition: [-122.41669, 37.781]}];
 
 class ReactMapGL extends PureComponent {
-  // state: {
-  // }
 	render() {
     const activeButton = this.props.userInterface.get('activeButton');
-    // const preData = data;
-    // data = data.filter((d) => d.playingTeam === activeButton);
     const data = this.props.arcState.layerData;
+    const colorInterpolator = interpolateRgb('#fff7fb','#023858');
+    // console.log('colorInterpolator', colorInterpolator);
     const getColor = (d) => {
-      if(d.playingTeam === activeButton) {
-        return [140, 140, 0, 255]
-      }
-      else {
-        return [220, 220, 220, 20]
-      }
+      return colorInterpolator(d.daysFromStart/31).replace(/[^\d,.]/g, '').split(',').map((d) => +d);
     };
     const arcLayer = new ArcLayer({
       id: 'arc-layer',
@@ -65,7 +47,7 @@ class ReactMapGL extends PureComponent {
       <MapGL
         {...this.props.viewport}
         onViewportChange={(viewport) => {
-          const {width, height, latitude, longitude, zoom} = viewport;
+          const {width, height, latitude, longitude, zoom, mapStyle} = viewport;
           // call `setState` and use the state to update the map.
           this.props.panMap(viewport);
         }}

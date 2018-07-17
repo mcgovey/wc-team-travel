@@ -19,43 +19,12 @@ class Interface extends Component {
     this.selectedOption = '';
   }
 
-  // Makes a button that triggers the CHANGE_VIZ action
-  // with a provided value.
-  // _makeButton(activeState, btnData) {
-  //   const { value, contents } = btnData;
-  //   const className = activeState === value ? 'btn btn-default active' : 'btn btn-default';
-
-  //   return (
-  //     <button
-  //       value={ value }
-  //       type='button'
-  //       className={ className }
-  //       onClick={ this.props.changeViz }
-  //       key={ value }>
-  //       { contents }
-  //     </button>
-  //   );
-  // }  
-  // handleChange(selectedOption) {
-  //   this.setState({ selectedOption });
-  //   // selectedOption can be null when the `x` (close) button is clicked
-  //   if (selectedOption) {
-  //     console.log(`Selected: ${selectedOption.label}`);
-  //   }
-  // }
-
   render() {
     const { activeButton } = this.props;
-
-    // console.log('print teams', Teams);
-    // make all the buttons:
-    // const buttons = this.buttons.map(btn => this._makeButton(activeButton, btn));
-    // const { selectedOption } = this.selectedOption;
 
     return (
       <div id='ui' style={ style.ui }>
         <div style={ style.header }>Select a country to view their journey</div>
-        
 
         <Select
           name="form-field-name"
@@ -67,11 +36,11 @@ class Interface extends Component {
         <div className='container' style={ style.legendBox }>
           <div style={ style.legendGradient }></div>
           <div className='row'>
-            <div id='leftTxt' className='col-md-6' style={{ text: 'align-left'}}>Low</div>
-            <div id='rightTxt' className='col-md-6' style={{ text: 'align-right'}}>High</div>
+            <div id='leftTxt' className='col-md-6' style={{ text: 'align-left', paddingRight: '0px' }}>Start of Tourney</div>
+            <div id='rightTxt' className='col-md-6' style={{ text: 'align-right', paddingRight: '0px'}}>End</div>
           </div>
         </div>
-        <div style={ style.reminder }>Click on a building for more information!</div>
+        {/* <div style={ style.reminder }>Click on a building for more information!</div> */}
       </div>
     );
   }
@@ -114,7 +83,7 @@ const style = {
   legendGradient: {
     height: '10px',
     width: '100%',
-    background: 'linear-gradient(to right, #f7fbff, #084594)',
+    background: 'linear-gradient(to right, #fff7fb, #023858)',
     borderRadius: '10px',
     marginBottom: '5px'
   },
