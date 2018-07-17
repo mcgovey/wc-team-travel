@@ -13,9 +13,10 @@ export function setStyle(style) {
 }
 
 export function changeViz(event) {
+  console.log('event for change', event);
   return {
     type: 'CHANGE_VIZ',
-    payload: event.target.value
+    payload: event.value
   }
 }
 

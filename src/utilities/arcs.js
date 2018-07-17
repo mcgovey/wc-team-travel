@@ -3,6 +3,7 @@ export default function createArcs(passedData, filter) {
 
   let data = passedData.map(d => {
     let rD = d;
+    console.log('rD', rD);
     if(!Array.isArray(rD.fromCoords)){
       rD.fromCoords = JSON.parse(d.fromCoords);
       rD.toCoords = JSON.parse(d.toCoords);

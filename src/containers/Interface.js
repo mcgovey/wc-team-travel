@@ -3,8 +3,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Immutable from 'immutable';
 
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 
-import Teams from '../data/teams';
+// import Teams from '../data/teams';
+import TeamOptions from '../data/teamDropdownOptions';
 
 import { changeViz } from '../actions/index';
 
@@ -12,40 +15,54 @@ class Interface extends Component {
   constructor(props) {
     super(props);
 
-    this.buttons = Teams;
+    // this.buttons = Teams;
+    this.selectedOption = '';
   }
 
   // Makes a button that triggers the CHANGE_VIZ action
   // with a provided value.
-  _makeButton(activeState, btnData) {
-    const { value, contents } = btnData;
-    const className = activeState === value ? 'btn btn-default active' : 'btn btn-default';
+  // _makeButton(activeState, btnData) {
+  //   const { value, contents } = btnData;
+  //   const className = activeState === value ? 'btn btn-default active' : 'btn btn-default';
 
-    return (
-      <button
-        value={ value }
-        type='button'
-        className={ className }
-        onClick={ this.props.changeViz }
-        key={ value }>
-        { contents }
-      </button>
-    );
-  }
+  //   return (
+  //     <button
+  //       value={ value }
+  //       type='button'
+  //       className={ className }
+  //       onClick={ this.props.changeViz }
+  //       key={ value }>
+  //       { contents }
+  //     </button>
+  //   );
+  // }  
+  // handleChange(selectedOption) {
+  //   this.setState({ selectedOption });
+  //   // selectedOption can be null when the `x` (close) button is clicked
+  //   if (selectedOption) {
+  //     console.log(`Selected: ${selectedOption.label}`);
+  //   }
+  // }
 
   render() {
     const { activeButton } = this.props;
 
     // console.log('print teams', Teams);
     // make all the buttons:
-    const buttons = this.buttons.map(btn => this._makeButton(activeButton, btn));
+    // const buttons = this.buttons.map(btn => this._makeButton(activeButton, btn));
+    // const { selectedOption } = this.selectedOption;
 
     return (
       <div id='ui' style={ style.ui }>
-        <div style={ style.header }>Select a metric to view:</div>
-        <div className="btn-group-vertical" role="group" aria-label="..." style={{ width: '100%' }}>
-          { buttons }
-        </div>
+        <div style={ style.header }>Select a country to view their journey</div>
+        
+
+        <Select
+          name="form-field-name"
+          value={activeButton}
+          onChange={this.props.changeViz}
+          options={TeamOptions}
+        />
         {/* static color legend: */}
         <div className='container' style={ style.legendBox }>
           <div style={ style.legendGradient }></div>
