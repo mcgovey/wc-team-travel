@@ -18,10 +18,28 @@ class Interface extends Component {
     // this.buttons = Teams;
     this.selectedOption = '';
   }
+  _renderMatches() {
+    
+    const data = this.props.arcState.layerData;
+    console.log('data', data);
+    return (
+      <div className='card'>
+        {data.map((d) => {
+          console.log('d', d);
+          return (
+            <ul key={d.datePlayed} className='list-group list-group-flush' style={style.gameRow}>
+              <li className='list-group-item'>
+                {`${d.playingTeam}-${d.opposingTeam} in ${d.city}`}
+              </li>
+            </ul>
+          );
+        })}
+      </div>
+    )
+  }
 
   render() {
     const { activeButton } = this.props;
-
     return (
       <div id='ui' style={ style.ui }>
         <div style={ style.header }>Select a country to view their journey</div>
@@ -40,7 +58,9 @@ class Interface extends Component {
             <div id='rightTxt' className='col-md-6' style={{ text: 'align-right', paddingRight: '0px'}}>End</div>
           </div>
         </div>
-        {/* <div style={ style.reminder }>Click on a building for more information!</div> */}
+        {/* <div className='container' style={ style.gameBox }> */}
+          {this._renderMatches()}
+        {/* </div> */}
       </div>
     );
   }
@@ -53,7 +73,8 @@ function mapDispatchToProps(dispatch) {
 }
 function mapStateToProps(state) {
   return{
-    activeButton: state.userInterface.get('activeButton')
+    activeButton: state.userInterface.get('activeButton'),
+    arcState: state.arcState,
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Interface);
@@ -79,6 +100,22 @@ const style = {
     borderRadius: '5px',
     fontSize: 'x-small',
     marginTop: '30px'
+  },
+  gameBox: {
+    zIndex: 2,
+    background: 'rgba(200,200,200,.55)',
+    width: '100%',
+    textAlign: 'center',
+    padding: '5px',
+    borderRadius: '5px',
+    fontSize: 'small',
+    marginTop: '20px'
+  },
+  gameRow: {
+    margin: '3px',
+    textAlign: 'center',
+    fontSize: 'small',
+    // marginRight: '2px',
   },
   legendGradient: {
     height: '10px',

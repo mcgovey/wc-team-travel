@@ -15,7 +15,43 @@ const TOKEN = MapboxAccessToken;
 // Data to be used by the LineLayer
 
 class ReactMapGL extends PureComponent {
-	render() {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      object: null
+    }
+  }
+  _onHover(event) {
+    console.log('event', event, event.object);
+    const { x, y, lngLat, object} = event;
+    // console.log('hover', x, y, object);
+    // const pickInfo = this.deckGL.pickObject({x: event.clientX, y: event.clientY});
+    // console.log(pickInfo.lngLat);
+    this.setState({x, y, lngLat, object});
+  }
+  _renderTooltip() {
+    const {x, y, lngLat, object} = this.state;
+
+    console.log('object', object);
+
+    if (!object) {
+      return null;
+    }
+
+    const lat = lngLat[1];
+    const lng = lngLat[0];
+    // const count = hoveredObject.points.length;
+
+    return (
+      <div className="tooltip"
+           style={{left: x, top: y, opacity: 1, backgroundColor: '#ccc', padding: '5px', borderRadius: '5px'}}>
+        <div>{`${object.playingTeam} traveled from ${object.fromCity}`}</div>
+        <div>{`to ${object.city} to play ${object.opposingTeam}`}</div>
+      </div>
+    );
+  }
+  render() {
     const activeButton = this.props.userInterface.get('activeButton');
     const data = this.props.arcState.layerData;
     const colorInterpolator = interpolateRgb('#fff7fb','#023858');
@@ -27,6 +63,7 @@ class ReactMapGL extends PureComponent {
       id: 'arc-layer',
       data,
       pickable: true,
+      onHover: this._onHover.bind(this),
       getStrokeWidth: 12,
       getSourcePosition: d => d.fromCoords,
       getTargetPosition: d => d.toCoords,
@@ -40,22 +77,27 @@ class ReactMapGL extends PureComponent {
       },
       // onHover: ({object}) => setTooltip(`${object.from.name} to ${object.to.name}`)
     });
-    
-    console.log('WCData', data, activeButton, this.props.arcState);
+    // console.log('WCData', data, activeButton, this.props.arcState);
     return (
-
-      <MapGL
-        {...this.props.viewport}
-        onViewportChange={(viewport) => {
-          const {width, height, latitude, longitude, zoom, mapStyle} = viewport;
-          // call `setState` and use the state to update the map.
-          this.props.panMap(viewport);
-        }}
-        mapboxApiAccessToken={TOKEN}>
-				<DeckGL {...this.props.viewport} layers={[
-          arcLayer
-				]} />
-		  </MapGL>
+      <div>
+        {this._renderTooltip()}
+        <MapGL
+          {...this.props.viewport}
+          onViewportChange={(viewport) => {
+            const {width, height, latitude, longitude, zoom, mapStyle} = viewport;
+            // call `setState` and use the state to update the map.
+            this.props.panMap(viewport);
+          }}
+          mapboxApiAccessToken={TOKEN}>
+          <DeckGL 
+            ref={deck => { this.deckGL = deck; }} 
+            {...this.props.viewport} 
+            layers={[
+              arcLayer
+            ]} 
+          />
+        </MapGL>
+      </div>
 		)
 	}
 }
