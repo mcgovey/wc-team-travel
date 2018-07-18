@@ -14,6 +14,9 @@ function hydrate(usePrevious = null) {
         activeLayer: 'buildings',
         popup: null,
       }),
+      gameSelect: Immutable.fromJS({
+        activeGame: null,
+      }),
       arcState: {
         layerData: wcData
       },

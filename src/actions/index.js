@@ -25,3 +25,18 @@ export function panMap(viewport) {
     payload: viewport
   }
 }
+
+export function selectGame(e) {
+  return {
+    type: 'SELECT_GAME',
+    payload: e.currentTarget.dataset.id
+  }
+}
+
+export function selectGameArc(e) {
+  console.log('selectgame', e)
+  return {
+    type: 'SELECT_GAME',
+    payload: e.object.datePlayed
+  }
+}

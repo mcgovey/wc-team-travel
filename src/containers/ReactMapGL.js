@@ -7,12 +7,9 @@ import { interpolateRgb } from 'd3-interpolate';
 
 import {MapboxAccessToken} from '../tokens/mapbox';
 
-import { panMap } from '../actions/index';
-
-// import WCData from '../data/wctravel';
+import { panMap, selectGameArc } from '../actions/index';
   
 const TOKEN = MapboxAccessToken;
-// Data to be used by the LineLayer
 
 class ReactMapGL extends PureComponent {
   constructor(props) {
@@ -23,17 +20,12 @@ class ReactMapGL extends PureComponent {
     }
   }
   _onHover(event) {
-    console.log('event', event, event.object);
+    //onHover only affects state on this component
     const { x, y, lngLat, object} = event;
-    // console.log('hover', x, y, object);
-    // const pickInfo = this.deckGL.pickObject({x: event.clientX, y: event.clientY});
-    // console.log(pickInfo.lngLat);
     this.setState({x, y, lngLat, object});
   }
   _renderTooltip() {
     const {x, y, lngLat, object} = this.state;
-
-    console.log('object', object);
 
     if (!object) {
       return null;
@@ -41,7 +33,6 @@ class ReactMapGL extends PureComponent {
 
     const lat = lngLat[1];
     const lng = lngLat[0];
-    // const count = hoveredObject.points.length;
 
     return (
       <div className="tooltip"
@@ -53,31 +44,37 @@ class ReactMapGL extends PureComponent {
   }
   render() {
     const activeButton = this.props.userInterface.get('activeButton');
+    const activeGame = this.props.gameSelect.get('activeGame');
     const data = this.props.arcState.layerData;
-    const colorInterpolator = interpolateRgb('#fff7fb','#023858');
-    // console.log('colorInterpolator', colorInterpolator);
-    const getColor = (d) => {
-      return colorInterpolator(d.daysFromStart/31).replace(/[^\d,.]/g, '').split(',').map((d) => +d);
+    const colorInterpolator = interpolateRgb('#ffffe5','#8c2d04');
+    const getColor = (d, a) => {
+      if (+d.datePlayed===+activeGame) {
+        return [0, 63, 55, 250];
+      } else {
+        const colorArr = colorInterpolator(d.daysFromStart/31).replace(/[^\d,.]/g, '').split(',').map((d) => +d);
+        colorArr.push(a);
+        return colorArr;
+      }
+      
     };
     const arcLayer = new ArcLayer({
       id: 'arc-layer',
       data,
       pickable: true,
       onHover: this._onHover.bind(this),
+      onClick: this.props.selectGameArc,
       getStrokeWidth: 12,
       getSourcePosition: d => d.fromCoords,
       getTargetPosition: d => d.toCoords,
-      highlightColor: [0, 0, 140, 200],
+      highlightColor: [63, 20, 1, 250],
       autoHighlight: true,
-      getSourceColor: d => getColor(d),
-      getTargetColor: d => getColor(d),
+      getSourceColor: d => getColor(d, 120),
+      getTargetColor: d => getColor(d, 255),
       updateTriggers: {
-        getSourceColor: [activeButton],
-        getTargetColor: [activeButton],
+        getSourceColor: [activeButton, activeGame],
+        getTargetColor: [activeButton, activeGame],
       },
-      // onHover: ({object}) => setTooltip(`${object.from.name} to ${object.to.name}`)
     });
-    // console.log('WCData', data, activeButton, this.props.arcState);
     return (
       <div>
         {this._renderTooltip()}
@@ -107,6 +104,7 @@ class ReactMapGL extends PureComponent {
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators({
     panMap: panMap,
+    selectGameArc: selectGameArc,
 	}, dispatch);
   }
 function mapStateToProps(state) {
@@ -114,6 +112,7 @@ function mapStateToProps(state) {
     viewport: state.viewport,
     userInterface: state.userInterface,
     arcState: state.arcState,
+    gameSelect: state.gameSelect,
 	};
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ReactMapGL);

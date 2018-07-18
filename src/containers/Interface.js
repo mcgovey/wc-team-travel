@@ -6,29 +6,35 @@ import Immutable from 'immutable';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 
-// import Teams from '../data/teams';
 import TeamOptions from '../data/teamDropdownOptions';
 
-import { changeViz } from '../actions/index';
+import { changeViz, selectGame } from '../actions/index';
 
 class Interface extends Component {
   constructor(props) {
     super(props);
 
-    // this.buttons = Teams;
     this.selectedOption = '';
   }
   _renderMatches() {
     
     const data = this.props.arcState.layerData;
-    console.log('data', data);
+    const { activeGame } = this.props;
     return (
-      <div className='card'>
+      <div className='card' style={ style.gameBox }>
         {data.map((d) => {
-          console.log('d', d);
           return (
-            <ul key={d.datePlayed} className='list-group list-group-flush' style={style.gameRow}>
-              <li className='list-group-item'>
+            <ul 
+              key={d.datePlayed} 
+              className='list-group list-group-flush' 
+              style={style.gameRow}
+            >
+              <li 
+                className={'list-group-item' + (+d.datePlayed===+activeGame ? ' active' : '')} 
+                data-id={d.datePlayed} 
+                onClick={this.props.selectGame}
+                style={style.gameLi}
+              >
                 {`${d.playingTeam}-${d.opposingTeam} in ${d.city}`}
               </li>
             </ul>
@@ -50,17 +56,21 @@ class Interface extends Component {
           onChange={this.props.changeViz}
           options={TeamOptions}
         />
+        
+        <div style={ style.header }>Select a match to highlight</div>
+        {this._renderMatches()}
         {/* static color legend: */}
-        <div className='container' style={ style.legendBox }>
-          <div style={ style.legendGradient }></div>
-          <div className='row'>
-            <div id='leftTxt' className='col-md-6' style={{ text: 'align-left', paddingRight: '0px' }}>Start of Tourney</div>
-            <div id='rightTxt' className='col-md-6' style={{ text: 'align-right', paddingRight: '0px'}}>End</div>
+        
+        <div style={ style.header }>Date Game Played Legend</div>
+        <div className='card'>
+          <div className='container' style={ style.legendBox }>
+            <div style={ style.legendGradient }></div>
+            <div className='row'>
+              <div id='leftTxt' className='col-md-6' style={{ text: 'align-left', paddingRight: '0px' }}>Start of Tourney</div>
+              <div id='rightTxt' className='col-md-6' style={{ text: 'align-right', paddingRight: '0px'}}>End</div>
+            </div>
           </div>
         </div>
-        {/* <div className='container' style={ style.gameBox }> */}
-          {this._renderMatches()}
-        {/* </div> */}
       </div>
     );
   }
@@ -68,12 +78,14 @@ class Interface extends Component {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    changeViz: changeViz
+    changeViz: changeViz,
+    selectGame: selectGame,
   },dispatch);
 }
 function mapStateToProps(state) {
   return{
     activeButton: state.userInterface.get('activeButton'),
+    activeGame: state.gameSelect.get('activeGame'),
     arcState: state.arcState,
   };
 }
@@ -92,45 +104,42 @@ const style = {
   },
   legendBox: {
     zIndex: 2,
-    background: 'rgba(200,200,200,.55)',
     height: '55px',
     width: '100%',
     textAlign: 'center',
-    padding: '15px',
+    // padding: '15px',
     borderRadius: '5px',
     fontSize: 'x-small',
-    marginTop: '30px'
+    // marginTop: '10px'
   },
   gameBox: {
-    zIndex: 2,
-    background: 'rgba(200,200,200,.55)',
-    width: '100%',
-    textAlign: 'center',
-    padding: '5px',
-    borderRadius: '5px',
-    fontSize: 'small',
-    marginTop: '20px'
+    marginTop: '10px'
   },
   gameRow: {
     margin: '3px',
     textAlign: 'center',
     fontSize: 'small',
-    // marginRight: '2px',
+    cursor: 'pointer',
   },
   legendGradient: {
     height: '10px',
     width: '100%',
-    background: 'linear-gradient(to right, #fff7fb, #023858)',
+    background: 'linear-gradient(to right, #ffffe5, #8c2d04)',
     borderRadius: '10px',
     marginBottom: '5px'
   },
   header: {
-    marginBottom: '20px',
-    fontWeight: 'bold'
+    marginBottom: '5px',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: '10px'
   },
   reminder: {
     fontSize: 'x-small',
     marginTop: '10px',
     marginLeft: '10px'
+  },
+  gameLi: {
+    zIndex: 'initial',
   }
 };
