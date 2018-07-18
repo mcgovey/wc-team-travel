@@ -34,7 +34,6 @@ export function selectGame(e) {
 }
 
 export function selectGameArc(e) {
-  console.log('selectgame', e)
   return {
     type: 'SELECT_GAME',
     payload: e.object.datePlayed

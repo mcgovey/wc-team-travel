@@ -48,7 +48,7 @@ class Interface extends Component {
     const { activeButton } = this.props;
     return (
       <div id='ui' style={ style.ui }>
-        <div style={ style.header }>Select a country to view their journey</div>
+        <div style={ style.headerBold }>Select a country to view their journey</div>
 
         <Select
           name="form-field-name"
@@ -57,7 +57,7 @@ class Interface extends Component {
           options={TeamOptions}
         />
         
-        <div style={ style.header }>Select a match to highlight</div>
+        <div style={ style.headerBold }>Select a match to highlight</div>
         {this._renderMatches()}
         {/* static color legend: */}
         
@@ -130,7 +130,12 @@ const style = {
   },
   header: {
     marginBottom: '5px',
+    textAlign: 'center',
+    marginTop: '10px'
+  },
+  headerBold: {
     fontWeight: 'bold',
+    marginBottom: '5px',
     textAlign: 'center',
     marginTop: '10px'
   },

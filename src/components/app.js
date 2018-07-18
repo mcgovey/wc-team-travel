@@ -11,17 +11,6 @@ export default class App extends Component {
     return (
       <div>
         <Interface />
-        {/* <ReactMap
-          token= { TOKEN }
-          longitude= { LONG }
-          latitude= { LAT }
-          zoom= { ZOOM }
-          showPopUp= { true }
-          styleID = { STYLE_ID }
-        /> */}
-        {/* <div className='col12 pad4 contain fill-navy dark clip'>
-  <div className='center quiet'></div>
-</div> */}
         <ReactMapGL />
       </div>
     );
