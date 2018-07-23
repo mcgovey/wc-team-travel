@@ -1,10 +1,8 @@
-# BuildingsReact
-Creating a React/Redux wrapper around Mapbox
+# World Cup 2018 Team Travel
+A React/Redux application utilizing Deck.gl to show individual country travel at the World Cup.
 
-This repo accompanies my [tutorial on wrapping Mapbox for React/Redux](https://medium.com/@mcculloughrt/react-redux-with-mapbox-78fa3767211e)
+This repo accompanies my [overview](https://medium.com/@mcgovey/world-cup-team-journeys-df068bd3eba9)
 
-## To Use:
-1. Clone the respository and 'npm install'
-2. Change the 'TOKEN' variable in src/components/app.js to your Mapbox API token
-3. Run 'npm start' from the root directory
-4. If you utilize this style in a project please throw some credit my way ;)
+## Project Demo located here: [demo](https://mcgovey.github.io/wc-team-travel/)
+
+## Python data manipulation located here: [notebook](https://github.com/mcgovey/wc-team-travel/blob/master/py/explore.ipynb)
